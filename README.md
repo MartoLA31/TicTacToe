@@ -1,6 +1,6 @@
 # TicTacToe
 
-Tiny Tic-Tac-Toe game.
+Tiny Tic-Tac-Toe game
 
 ## Quick Start
 
