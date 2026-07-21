@@ -1,7 +1,8 @@
 # TicTacToe
 
-Super simple and fast Tic-Tac-Toe.
+Tiny Tic-Tac-Toe game.
 
-## Run
+## Quick Start
 
-Open `index.html` in your browser.
+1. Open index.html
+2. Play
