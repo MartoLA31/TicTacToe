@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic-Tac-Toe</title>
+  <style>
+    :root {
+      --bg: #f7f9fc;
+      --card: #ffffff;
+      --line: #cfd8e3;
+      --text: #1e293b;
+      --x: #ef4444;
+      --o: #0ea5e9;
+      --btn: #111827;
+      --btn-text: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 20% 10%, #ffffff 0%, var(--bg) 50%);
+      font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+    }
+
+    .app {
+      width: min(92vw, 380px);
+      background: var(--card);
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+      padding: 16px;
+    }
+
+    h1 {
+      font-size: 1.05rem;
+      margin: 0 0 12px;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+
+    .status {
+      text-align: center;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      min-height: 1.3em;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .cell {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border: 2px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      font-size: clamp(2rem, 10vw, 2.5rem);
+      font-weight: 800;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 80ms ease, background 120ms ease;
+    }
+
+    .cell:hover {
+      background: #f8fafc;
+      transform: translateY(-1px);
+    }
+
+    .cell:active {
+      transform: translateY(0);
+    }
+
+    .cell.x { color: var(--x); }
+    .cell.o { color: var(--o); }
+
+    .controls {
+      margin-top: 12px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .reset {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--btn);
+      color: var(--btn-text);
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <h1>Tic-Tac-Toe</h1>
+    <div class="status" id="status">Player X turn</div>
+    <div class="board" id="board" aria-label="Tic-Tac-Toe board"></div>
+    <div class="controls">
+      <button class="reset" id="reset">Reset</button>
+    </div>
+  </main>
+
+  <script>
+    const board = document.getElementById("board");
+    const status = document.getElementById("status");
+    const reset = document.getElementById("reset");
+
+    const wins = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8],
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],
+      [0, 4, 8], [2, 4, 6]
+    ];
+
+    let cells = [];
+    let state = Array(9).fill("");
+    let turn = "X";
+    let done = false;
+
+    function renderBoard() {
+      board.innerHTML = "";
+      cells = state.map((value, index) => {
+        const btn = document.createElement("button");
+        btn.className = "cell";
+        btn.textContent = value;
+        btn.setAttribute("aria-label", `Cell ${index + 1}`);
+        if (value) btn.classList.add(value.toLowerCase());
+        btn.addEventListener("click", () => play(index));
+        board.appendChild(btn);
+        return btn;
+      });
+    }
+
+    function winner() {
+      for (const [a, b, c] of wins) {
+        if (state[a] && state[a] === state[b] && state[a] === state[c]) {
+          return state[a];
+        }
+      }
+      return "";
+    }
+
+    function play(i) {
+      if (done || state[i]) return;
+
+      state[i] = turn;
+      const cell = cells[i];
+      cell.textContent = turn;
+      cell.classList.add(turn.toLowerCase());
+
+      const win = winner();
+      if (win) {
+        status.textContent = `Player ${win} wins!`;
+        done = true;
+        return;
+      }
+
+      if (!state.includes("")) {
+        status.textContent = "Draw!";
+        done = true;
+        return;
+      }
+
+      turn = turn === "X" ? "O" : "X";
+      status.textContent = `Player ${turn} turn`;
+    }
+
+    function restart() {
+      state = Array(9).fill("");
+      turn = "X";
+      done = false;
+      status.textContent = "Player X turn";
+      renderBoard();
+    }
+
+    reset.addEventListener("click", restart);
+    renderBoard();
+  </script>
+</body>
+</html>
