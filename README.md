@@ -19,7 +19,7 @@ A tiny, fast, no-build Tic-Tac-Toe game made with plain HTML, CSS, and JavaScrip
 
 ## Quick Start
 
-1. Open [index.html](index.html) in your browser
+1. Open [index.html](index.html) in your browser (need to have LiveServer installed)
 2. Click any square to place X or O
 3. Press Reset to start a new game
 
