@@ -32,6 +32,11 @@
     let turn = "X";
     let done = false;
 
+    function setStatus(message, kind = "") {
+      status.textContent = message;
+      status.className = kind ? `status ${kind}` : "status";
+    }
+
     function renderBoard() {
       board.innerHTML = "";
       cells = state.map((value, index) => {
@@ -65,26 +70,26 @@
 
       const win = winner();
       if (win) {
-        status.textContent = `Player ${win} wins!`;
+        setStatus(`Player ${win} wins!`, "win");
         done = true;
         return;
       }
 
       if (!state.includes("")) {
-        status.textContent = "Draw!";
+        setStatus("Draw!", "draw");
         done = true;
         return;
       }
 
       turn = turn === "X" ? "O" : "X";
-      status.textContent = `Player ${turn} turn`;
+      setStatus(`Player ${turn} turn`);
     }
 
     function restart() {
       state = Array(9).fill("");
       turn = "X";
       done = false;
-      status.textContent = "Player X turn";
+      setStatus("Player X turn");
       renderBoard();
     }
 
