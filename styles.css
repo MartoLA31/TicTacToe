@@ -42,8 +42,26 @@ h1 {
 .status {
   text-align: center;
   font-size: 0.95rem;
-  margin-bottom: 12px;
+  margin: 0 0 12px;
   min-height: 1.3em;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.status.win {
+  background: #ecfdf5;
+  border-color: #86efac;
+  color: #166534;
+}
+
+.status.draw {
+  background: #fff7ed;
+  border-color: #fdba74;
+  color: #9a3412;
 }
 
 .board {
