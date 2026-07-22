@@ -31,6 +31,7 @@
     let state = Array(9).fill("");
     let turn = "X";
     let done = false;
+    let winningLine = [];
 
     function renderBoard() {
       board.innerHTML = "";
@@ -49,10 +50,10 @@
     function winner() {
       for (const [a, b, c] of wins) {
         if (state[a] && state[a] === state[b] && state[a] === state[c]) {
-          return state[a];
+          return { symbol: state[a], line: [a, b, c] };
         }
       }
-      return "";
+      return null;
     }
 
     function play(i) {
@@ -65,7 +66,9 @@
 
       const win = winner();
       if (win) {
-        status.textContent = `Player ${win} wins!`;
+        winningLine = win.line;
+        winningLine.forEach((index) => cells[index].classList.add("win"));
+        status.textContent = `Player ${win.symbol} wins!`;
         done = true;
         return;
       }
@@ -84,6 +87,7 @@
       state = Array(9).fill("");
       turn = "X";
       done = false;
+      winningLine = [];
       status.textContent = "Player X turn";
       renderBoard();
     }
